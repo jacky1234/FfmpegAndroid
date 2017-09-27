@@ -42,11 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
         final android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         final LogFragment fragment = new LogFragment();
-        transaction.replace(R.id.framelog, fragment);
+        transaction.replace(R.id.framelog, fragment).commit();
+    }
 
-        LogCatWrapper logcat = new LogCatWrapper();
-        logcat.setNext(fragment.getLogView());
-        Log.setLogNode(logcat);
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+            LogFragment fragment = (LogFragment) getSupportFragmentManager().findFragmentById(R.id.framelog);
+            LogCatWrapper logcat = new LogCatWrapper();
+            logcat.setNext(fragment.getLogView());      //wait unit the fragment has getFocus
+            Log.setLogNode(logcat);
+        }
     }
 
     public void selectVideo(View view) {
@@ -84,7 +92,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void executeCmd(View view) {
-        execute(mEditText.getText().toString().trim());
+        String cmd = mEditText.getText().toString().trim();
+        String[] command = cmd.split(" ");
+        if (command.length != 0) {
+            execute(command);
+        } else {
+            Toast.makeText(this, getString(R.string.empty_command_toast), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void execute(final String... cmd) {

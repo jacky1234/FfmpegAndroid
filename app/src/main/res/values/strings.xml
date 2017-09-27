@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FfmpegAndroid</string>
+    <string name="empty_command_toast">You cannot execute empty command</string>
 </resources>
