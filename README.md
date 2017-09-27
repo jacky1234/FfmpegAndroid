@@ -15,5 +15,5 @@ The key is as follows:
 String[] ffmpegBinary = new String[] { FileUtils.getFFmpeg(context, environvenmentVars) };
 String[] command = concatenate(ffmpegBinary, cmd);
 ```
-
-3. Finally, run `process = Runtime.getRuntime().exec(commandString)`
+3. Finally, run 
+`Process process = Runtime.getRuntime().exec(commandString)`
